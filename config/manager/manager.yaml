@@ -30,7 +30,7 @@ spec:
       - args:
         - --leader-elect
         - --leader-election-id=consulkv-operator
-        image: chr1slavery/consulkv-operator:0.0.8
+        image: chr1slavery/consulkv-operator:0.0.1
         name: manager
         env:
         - name: ANSIBLE_GATHERING
