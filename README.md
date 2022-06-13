@@ -54,3 +54,9 @@ if you are using tilt you can see the KV in the ui at https://localhost:8500
 kubectl delete -f config/samples/consul_v1alpha1_consulkv.yaml
 ```
 the delete will take a moment whilst the finalizer runs but should complete after the KV is removed.
+
+shutdown:
+```
+tilt down
+ctlptl delete cluster kind
+```
