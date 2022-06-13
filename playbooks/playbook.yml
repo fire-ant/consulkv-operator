@@ -1,0 +1,13 @@
+---
+# tasks file for ConsulKV
+
+# https://docs.ansible.com/ansible/latest/collections/community/general/consul_kv_module.html
+- name: add/update consul kv
+  community.general.consul_kv:
+    key: "{{ key }}"
+    value: "{{ value }}"
+    port: 8500
+    host: "{{ server }}" # "127.0.0.1"
+    state: "{{ state | default('present') }}"
+    retrieve: yes
+    validate_certs: no

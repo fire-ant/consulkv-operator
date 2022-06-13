@@ -1,0 +1,16 @@
+---
+# Use the 'create api' subcommand to add watches to this file.
+- version: v1alpha1
+  group: ops.consul.io
+  kind: ConsulKV
+  role: consulkv
+
+- version: v1alpha1
+  group: ops.consul.io
+  kind: ConsulKV
+  role: consulkv
+  finalizer:
+    name: ops.consul.io/finalizer
+    vars:
+      state: absent
+#+kubebuilder:scaffold:watch
