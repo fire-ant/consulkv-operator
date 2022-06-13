@@ -4,13 +4,12 @@
   group: ops.consul.io
   kind: ConsulKV
   role: consulkv
-
-- version: v1alpha1
-  group: ops.consul.io
-  kind: ConsulKV
-  role: consulkv
+  manageStatus: False
+  watchDependentResources: False
+  snakeCaseParameters: False
   finalizer:
-    name: ops.consul.io/finalizer
+    name: finalizer.ops.consul.io
+    role: /opt/ansible/roles/consulkv
     vars:
       state: absent
 #+kubebuilder:scaffold:watch
