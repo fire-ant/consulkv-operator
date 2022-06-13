@@ -1,0 +1,12 @@
+apiVersion: ops.consul.io/v1alpha1
+kind: ConsulKV
+metadata:
+  name: consulkv-sample
+  namespace: consul
+spec:
+  key: a_key
+  value: |
+    {
+    "a_json_key" : "a_json_value"
+    }
+  server: consul-server.consul
