@@ -2,7 +2,7 @@
 # tasks file for ConsulKV
 
 # https://docs.ansible.com/ansible/latest/collections/community/general/consul_kv_module.html
-- name: add/update consul kv
+- name: sync consul kv
   community.general.consul_kv:
     key: "{{ key }}"
     value: "{{ value }}"
