@@ -1,5 +1,5 @@
 # Note: You can use any Debian/Ubuntu based image you want. 
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-buster
+FROM mcr.microsoft.com/vscode/devcontainers/base:buster
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
@@ -56,23 +56,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && pip3 install --upgrade pip \
     && pip3 install setuptools ansible-runner-http==1.0.0 ansible-runner==2.2.0 ansible
 
-# [Optional] Uncomment this section to install additional OS packages.
-RUN echo "deb [trusted=yes] https://apt.fury.io/netdevops/ /" | \
-    sudo tee -a /etc/apt/sources.list.d/netdevops.list
-
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends containerlab
-
 #  install kind
 RUN curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.14.0/kind-$(uname)-amd64" \
     && chmod +x ./kind \
     && mv ./kind /usr/bin/kind
-
-# install consul-k8s
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - \
-    && apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
-    && apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends consul-k8s
 
 #  install kustomize
 RUN curl -LO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v3.2.3/kustomize_kustomize.v3.2.3_linux_amd64 \
