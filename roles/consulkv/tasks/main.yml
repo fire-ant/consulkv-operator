@@ -5,7 +5,7 @@
 - name: sync consul kv
   community.general.consul_kv:
     key: "{{ key }}"
-    value: "{{ value }}"
+    value: "{{ value | to_json }}"
     port: 8500
     host: "{{ server }}" # "127.0.0.1"
     state: "{{ state }}"
