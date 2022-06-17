@@ -45,6 +45,8 @@
 		}
 	},
 	"containerEnv": {
-    "KIND_EXPERIMENTAL_DOCKER_NETWORK": "kind"
+    "KIND_EXPERIMENTAL_DOCKER_NETWORK": "kind",
+		"GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}",
+		"GITHUB_USER": "${localEnv:GITHUB_USER}"
 	}
 }
