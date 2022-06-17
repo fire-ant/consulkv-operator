@@ -40,6 +40,12 @@ To build the local cluster you can use [kind](https://kind.sigs.k8s.io) or [ctlp
 kind create cluster
 ctlptl create cluster
 ```
+If needed/preferred, you can also use ctlptl to create a local registry and deploy a linked cluster:
+```
+ctlptl create registry ctlptl-registry
+ctlptl create cluster kind --registry ctlptl-registry
+``` 
+
 to install the dependencies you can use the tiltfile with [tilt](https://tilt.dev):
 ```
 tilt up
@@ -50,6 +56,17 @@ to test the operator with some basic commands:
 kubectl create -f config/samples/consul_v1alpha1_consulkv.yaml
 ```
 if you are using tilt you can see the KV in the ui at https://localhost:8500
+
+You can also see the config in the CR object with 
+```
+kubectl get ConsulKV consulkv-sample -n consul -o jsonpath='{.spec.value}' | jq .
+```
+where consulkv-sample is the switch name.
+
+### TESTING
+
+watch grep -A 5 METADATA  /etc/sonic/config_db.json
+
 ```
 kubectl delete -f config/samples/consul_v1alpha1_consulkv.yaml
 ```
