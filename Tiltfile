@@ -32,10 +32,10 @@ k8s_yaml(kustomize('./config/default'), allow_duplicates=True)
 docker_compose("./docker-compose.yml")
 
 # TESTS
-local_resource(name="apply_green",cmd='kubectl apply -f test/green/consul_v1alpha1_consulkv.yaml',trigger_mode=TRIGGER_MODE_MANUAL,resource_deps=["wait-for-crd"])
+local_resource(name="apply_green",cmd='kubectl apply -f test/green/consul_v1alpha1_consulkv.yaml',trigger_mode=TRIGGER_MODE_MANUAL)
 local_resource(name="kv_green",cmd='docker exec sonic-consul consul kv get configs/sw1 | jq .[].localhost.hostname',resource_deps=["apply_green"])
 local_resource(name="cfg_green", cmd='docker exec sonic-consul grep green_switch /etc/sonic/config_db.json', trigger_mode=TRIGGER_MODE_MANUAL,resource_deps=["kv_green","apply_green"])
-local_resource(name="apply_blue",cmd='kubectl apply -f test/blue/consul_v1alpha1_consulkv.yaml',trigger_mode=TRIGGER_MODE_MANUAL,resource_deps=["wait-for-crd"])
+local_resource(name="apply_blue",cmd='kubectl apply -f test/blue/consul_v1alpha1_consulkv.yaml',trigger_mode=TRIGGER_MODE_MANUAL)
 local_resource(name="kv_blue",cmd='docker exec sonic-consul consul kv get configs/sw1 | jq .[].localhost.hostname',resource_deps=["apply_blue"])
 local_resource(name="cfg_blue", cmd='docker exec sonic-consul grep blue_switch /etc/sonic/config_db.json', trigger_mode=TRIGGER_MODE_MANUAL,resource_deps=["kv_blue","apply_blue"])
 local_resource(name="delete",cmd='kubectl delete -f test/blue/consul_v1alpha1_consulkv.yaml',trigger_mode=TRIGGER_MODE_MANUAL,resource_deps=["apply_blue", "apply_green"])
