@@ -1,0 +1,9 @@
+{
+    "node_name": "consul-client",
+    "server": false,
+    "data_dir": "/consul/data",
+    "bind_addr": "0.0.0.0",
+    "retry_join":[
+        "kind-control-plane.kind"
+     ]
+}
