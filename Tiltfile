@@ -1,3 +1,7 @@
+
+docker_build('chr1slavery/consulkv-operator', '.', 
+    dockerfile='Dockerfile')
+
 ns = """
 apiVersion: v1
 kind: Namespace
@@ -17,8 +21,16 @@ helm_remote('consul',
             repo_url='https://helm.releases.hashicorp.com',
             namespace='consul',
             values='dev/consul-values.yaml')
-k8s_resource(workload='consul-server', port_forwards=8500)
+k8s_resource(workload='consul-server', port_forwards=[8500,8600])
+k8s_resource(workload='consul-client', port_forwards=[8301,8302])
 
 # k8s_yaml(helm('consul-helm/consul', name='consul', values='dev/consul-values.yaml'))
 
 k8s_yaml(kustomize('./config/default'))
+
+docker_compose("./docker-compose.yml")
+# TESTS
+local_resource(name="apply_green",cmd='kubectl apply -f test/green/consul_v1alpha1_consulkv.yaml',trigger_mode=TRIGGER_MODE_MANUAL)
+local_resource(name="is_green", cmd='docker exec sonic-consul grep green_switch /etc/sonic/config_db.json', trigger_mode=TRIGGER_MODE_MANUAL)
+local_resource(name="apply_blue",cmd='kubectl apply -f test/blue/consul_v1alpha1_consulkv.yaml',trigger_mode=TRIGGER_MODE_MANUAL)
+local_resource(name="is_blue", cmd='docker exec sonic-consul grep blue_switch /etc/sonic/config_db.json', trigger_mode=TRIGGER_MODE_MANUAL)
