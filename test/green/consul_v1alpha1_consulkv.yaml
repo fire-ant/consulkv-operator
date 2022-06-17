@@ -11,5 +11,5 @@ spec:
         buffer_model: traditional
         hwsku: Force10-S6000
         mac: 02:42:ac:14:14:03
-        hostname: blue_switch
+        hostname: green_switch
   server: consul-server.consul
