@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  consul-ext-client:
+    image: chr1slavery/sonic-vs-consul:latest
+    container_name: sonic-consul
+    restart: always
+    volumes:
+      - ./dev/client.json:/etc/consul.d/client/client.json
+      - ./dev/consul.conf:/etc/supervisor/conf.d/consul.conf
+      - ./dev/consul_tmpl.conf:/etc/supervisor/conf.d/consul_tmpl.conf
+      - ./dev/config.hcl:/etc/consul-template/config.hcl
+    networks:
+      - kind
+    mem_limit: 1024m
+    mem_reservation: 1024m
+    cpus: 1
+networks:
+  kind:
+    external: true  
