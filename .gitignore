@@ -13,3 +13,6 @@ bin
 *.swo
 *~
 .vscode/*.log
+
+# helm chart artifact
+*.tgz
