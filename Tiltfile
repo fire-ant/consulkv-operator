@@ -26,7 +26,13 @@ k8s_resource(workload='consul-server', port_forwards=[8500])
 k8s_resource(workload='consul-client', port_forwards=[8301,8302])
 
 # deploy the operator
-k8s_yaml(kustomize('./config/default'), allow_duplicates=True)
+k8s_yaml(
+  helm(
+    'consulkv-operator-helm',
+    namespace='consul',
+    values=['consulkv-operator-helm/values.yaml']
+    )
+  )
 
 # deploy the external client
 docker_compose("./docker-compose.yml")
