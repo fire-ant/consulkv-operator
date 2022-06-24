@@ -1,0 +1,41 @@
+controllerManager:
+  kubeRbacProxy:
+    image:
+      repository: gcr.io/kubebuilder/kube-rbac-proxy
+      tag: v0.11.0
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+      requests:
+        cpu: 5m
+        memory: 64Mi
+  manager:
+    image:
+      repository: chr1slavery/consulkv-operator
+      tag: 0.0.1
+    resources:
+      limits:
+        cpu: 500m
+        memory: 768Mi
+      requests:
+        cpu: 10m
+        memory: 256Mi
+  replicas: 1
+kubernetesClusterDomain: cluster.local
+managerConfig:
+  controllerManagerConfigYaml:
+    health:
+      healthProbeBindAddress: :6789
+    leaderElection:
+      leaderElect: true
+      resourceName: 811c9dc5.consul.io
+    metrics:
+      bindAddress: 127.0.0.1:8080
+metricsService:
+  ports:
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: https
+  type: ClusterIP
