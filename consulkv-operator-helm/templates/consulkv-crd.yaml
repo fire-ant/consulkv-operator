@@ -3,10 +3,10 @@ kind: CustomResourceDefinition
 metadata:
   name: consulkvs.ops.consul.io
   annotations:
-    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "chart.fullname" . }}-
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "consulkv-operator-helm.fullname" . }}-
   labels:
 
-  {{- include "chart.labels" . | nindent 4 }}
+  {{- include "consulkv-operator-helm.labels" . | nindent 4 }}
 spec:
   group: ops.consul.io
   names:

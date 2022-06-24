@@ -1,28 +1,28 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ include "chart.fullname" . }}-controller-manager
+  name: {{ include "consulkv-operator-helm.fullname" . }}-controller-manager
   labels:
-  {{- include "chart.labels" . | nindent 4 }}
+  {{- include "consulkv-operator-helm.labels" . | nindent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "chart.fullname" . }}-controller-manager
+  name: {{ include "consulkv-operator-helm.fullname" . }}-controller-manager
   labels:
     control-plane: controller-manager
-  {{- include "chart.labels" . | nindent 4 }}
+  {{- include "consulkv-operator-helm.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.controllerManager.replicas }}
   selector:
     matchLabels:
       control-plane: controller-manager
-    {{- include "chart.selectorLabels" . | nindent 6 }}
+    {{- include "consulkv-operator-helm.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         control-plane: controller-manager
-      {{- include "chart.selectorLabels" . | nindent 8 }}
+      {{- include "consulkv-operator-helm.selectorLabels" . | nindent 8 }}
       annotations:
         kubectl.kubernetes.io/default-container: manager
     spec:
@@ -75,5 +75,5 @@ spec:
           allowPrivilegeEscalation: false
       securityContext:
         runAsNonRoot: true
-      serviceAccountName: {{ include "chart.fullname" . }}-controller-manager
+      serviceAccountName: {{ include "consulkv-operator-helm.fullname" . }}-controller-manager
       terminationGracePeriodSeconds: 10

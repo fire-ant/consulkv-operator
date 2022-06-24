@@ -28,10 +28,9 @@ k8s_resource(workload='consul-client', port_forwards=[8301,8302])
 # deploy the operator
 k8s_yaml(
   helm(
-    'chart/',
-    name='consulkv-operator',
+    'consulkv-operator-helm/',
     namespace='consul',
-    values=['chart/values.yaml']
+    values=['consulkv-operator-helm/values.yaml']
     )
   )
 

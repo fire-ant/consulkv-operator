@@ -212,6 +212,8 @@ HELMIFY = $(shell which helmify)
 endif
 endif
 
+CHART_NAME = $(shell (echo ${IMAGE_TAG_BASE} | awk -F '/' '{print $$2}'))-helm
+
 .PHONY: manifests
 manifests: kustomize ## Generate bundle manifests and metadata, then validate generated files.
 	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
@@ -219,4 +221,4 @@ manifests: kustomize ## Generate bundle manifests and metadata, then validate ge
 
 .PHONY: helm ## Generate helm chart from kustomize build.
 helm:	manifests	kustomize	helmify
-	$(KUSTOMIZE) build config/default | $(HELMIFY)
+	$(KUSTOMIZE) build config/default | $(HELMIFY) ${CHART_NAME}
