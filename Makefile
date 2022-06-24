@@ -93,6 +93,7 @@ install: kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/con
 uninstall: kustomize ## Uninstall CRDs from the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/crd | kubectl delete -f -
 
+
 .PHONY: deploy
 deploy: kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
 	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
@@ -101,6 +102,7 @@ deploy: kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/c
 .PHONY: undeploy
 undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/config.
 	$(KUSTOMIZE) build config/default | kubectl delete -f -
+
 
 OS := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ARCH := $(shell uname -m | sed 's/x86_64/amd64/')
@@ -191,3 +193,30 @@ catalog-build: opm ## Build a catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+
+##@ Helm chart creation
+.PHONY: helmify
+HELMIFY = $(shell pwd)/bin/helmify
+HELMIFY_VERSION = 0.3.13
+helmify: ## Download helmify locally if necessary.
+ifeq (,$(wildcard $(HELMIFY)))
+ifeq (,$(shell which helmify 2>/dev/null))
+	@{ \
+	set -e ;\
+	mkdir -p $(dir $(HELMIFY)) ;\
+	curl -sSLo - https://github.com/arttor/helmify/releases/download/v${HELMIFY_VERSION}/helmify_${HELMIFY_VERSION}_Linux_64-bit.tar.gz | \
+	tar xzf - -C bin/ ;\
+	}
+else
+HELMIFY = $(shell which helmify)
+endif
+endif
+
+.PHONY: manifests
+manifests: kustomize ## Generate bundle manifests and metadata, then validate generated files.
+	cd config/manager && $(KUSTOMIZE) edit set image controller=$(IMG)
+	$(KUSTOMIZE) build config/default 
+
+.PHONY: helm ## Generate helm chart from kustomize build.
+helm:	manifests	kustomize	helmify
+	$(KUSTOMIZE) build config/default | $(HELMIFY)

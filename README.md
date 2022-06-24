@@ -79,6 +79,14 @@ to install the dependencies you can use the tiltfile with [tilt](https://tilt.de
 tilt up
 ```
 
+### Helm Chart
+
+Operator-SDK provides a prepared Makefile but unfortunately it is not equipped to provide other ways of installing outside of [OLM](https://docs.openshift.com/container-platform/4.7/operators/understanding/olm/olm-understanding-olm.html). In Lieu of this the Makefile has been amended to use [Helmify](https://github.com/arttor/helmify) to generate the helm chart. Helmify will not overwrite the values in [Chart.yaml](chart/Chart.yaml) which will need to be bumped prior to  running:
+```
+make helm
+```
+to generate the manifests and template the updated chart.
+
 ### Demonstration
 
 Included in the Tiltfile are the necessary tests to manually create CR's in cluster and subsequently ensure they have been configured the external consul-client by way of the agent. The 'apply*' will create the CR, the 'kv*' will use consul-agent to confirm they are in the KV store and the 'cfg*' will confirm they are in the runningconfiguration of the externl client.
