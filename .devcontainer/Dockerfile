@@ -14,6 +14,8 @@ ARG DOCKER_VERSION="latest"
 
 ARG OPERATOR_SDK_VERSION="1.21.0"
 
+ARG HELMIFY_VERSION="0.3.13"
+
 # Enable new "BUILDKIT" mode for Docker CLI
 ENV DOCKER_BUILDKIT=1
 
@@ -74,3 +76,9 @@ RUN curl -LO https://github.com/tilt-dev/ctlptl/releases/download/v0.8.4/ctlptl.
     && tar -xzvf ctlptl.0.8.4.linux.x86_64.tar.gz \
     && chmod a+x ctlptl \
     && mv ctlptl /usr/local/bin/ctlptl
+
+# install helmify
+RUN curl -LO https://github.com/arttor/helmify/releases/download/v${HELMIFY_VERSION}/helmify_${HELMIFY_VERSION}_Linux_64-bit.tar.gz \
+    && tar -xzvf helmify_${HELMIFY_VERSION}_Linux_64-bit.tar.gz \
+    && chmod a+x helmify \
+    && mv helmify /usr/local/bin/helmify
