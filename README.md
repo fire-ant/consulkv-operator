@@ -81,9 +81,11 @@ tilt up
 
 ### Helm Chart
 
-Operator-SDK provides a prepared Makefile but unfortunately it is not equipped to provide other ways of installing outside of [OLM](https://docs.openshift.com/container-platform/4.7/operators/understanding/olm/olm-understanding-olm.html). In Lieu of this the Makefile has been amended to use [Helmify](https://github.com/arttor/helmify) to generate the helm chart.
-
-
+Operator-SDK provides a prepared Makefile but unfortunately it is not equipped to provide other ways of installing outside of [OLM](https://docs.openshift.com/container-platform/4.7/operators/understanding/olm/olm-understanding-olm.html). In Lieu of this the Makefile has been amended to use [Helmify](https://github.com/arttor/helmify) to generate the helm chart. Helmify will not overwrite the values in [Chart.yaml](chart/Chart.yaml) which will need to be bumped prior to  running:
+```
+make helm
+```
+to generate the manifests and template the updated chart.
 
 ### Demonstration
 
