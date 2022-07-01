@@ -221,4 +221,4 @@ manifests: kustomize ## Generate bundle manifests and metadata, then validate ge
 
 .PHONY: helm ## Generate helm chart from kustomize build.
 helm:	manifests	kustomize	helmify
-	$(KUSTOMIZE) build config/default | $(HELMIFY) ${CHART_NAME} --crd-dir
+	$(KUSTOMIZE) build config/default | $(HELMIFY) -crd-dir ${CHART_NAME}
