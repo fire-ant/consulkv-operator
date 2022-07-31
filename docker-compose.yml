@@ -17,4 +17,4 @@ services:
     cpus: 1
 networks:
   kind:
-    external: true  
+    external: true
